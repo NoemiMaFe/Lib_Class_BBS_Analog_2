@@ -1,0 +1,7 @@
+workspace loadfrom -path .
+cell open -design Lib_Class_BBS_Analog -cell TB_AC_OPAMP -type schematic -newwindow
+window move -left 160 -top 160 -width 1383 -height 543 -undock -max 
+window fit -x0 -11560 -y0 -2168 -x1 9876 -y1 7864 -units iu
+workspace dockinglayout load -file dockinglayout.xml
+source open.design -relativeto user -encoding utf-8
+source open.design -relativeto design -encoding utf-8

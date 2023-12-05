@@ -1,0 +1,1195 @@
+*****************************************************************************
+*  Generic 0.25um Process
+*****************************************************************************
+*
+
+* note:
+* corner_name
+* TT : Typical model for NMOS & PMOS
+* SS : Slow NMOS Slow PMOS model
+* FF : Fast NMOS Fast PMOS model
+* SF : Slow NMOS Fast PMOS model
+* FS : Fast NMOS Slow PMOS model
+*      
+
+*****************************************************************************
+* Corner Model Typical
+*****************************************************************************
+.LIB TT
+.LIB 'Generic_250nm.lib' GEN
+.LIB 'Generic_250nm.lib' TT_NMOS
+.LIB 'Generic_250nm.lib' TT_PMOS
+.LIB 'Generic_250nm.lib' RES_TYP
+.LIB 'Generic_250nm.lib' CAP_TYP
+.LIB 'Generic_250nm.lib' TT_Bipolar
+.ENDL
+
+.LIB TT_AMS
+.LIB 'Generic_250nm.lib' TT
+.HDL connectsetup.vams
+.ENDL
+
+*****************************************************************************
+* Corner Model Fast NMOS-Fast PMOS
+*****************************************************************************
+.LIB FF
+.LIB 'Generic_250nm.lib' GEN
+.LIB 'Generic_250nm.lib' FAST_NMOS
+.LIB 'Generic_250nm.lib' FAST_PMOS
+.LIB 'Generic_250nm.lib' RES_MIN
+.LIB 'Generic_250nm.lib' CAP_MIN
+.LIB 'Generic_250nm.lib' Fast_Bipolar
+.ENDL
+
+*****************************************************************************
+* Corner Model Slow NMOS-Slow PMOS
+*****************************************************************************
+.LIB SS
+.LIB 'Generic_250nm.lib' GEN
+.LIB 'Generic_250nm.lib' SLOW_NMOS
+.LIB 'Generic_250nm.lib' SLOW_PMOS
+.LIB 'Generic_250nm.lib' RES_MAX
+.LIB 'Generic_250nm.lib' CAP_MAX
+.LIB 'Generic_250nm.lib' Slow_Bipolar
+.ENDL
+
+*****************************************************************************
+* Corner Model Fast NMOS-Slow PMOS
+*****************************************************************************
+.LIB FS
+.LIB 'Generic_250nm.lib' GEN
+.LIB 'Generic_250nm.lib' FAST_NMOS
+.LIB 'Generic_250nm.lib' SLOW_PMOS
+.LIB 'Generic_250nm.lib' RES_TYP
+.LIB 'Generic_250nm.lib' CAP_TYP
+.LIB 'Generic_250nm.lib' TT_Bipolar
+.ENDL
+
+*****************************************************************************
+* Corner Model Slow NMOS-Fast PMOS
+*****************************************************************************
+.LIB SF
+.LIB 'Generic_250nm.lib' GEN
+.LIB 'Generic_250nm.lib' SLOW_NMOS
+.LIB 'Generic_250nm.lib' FAST_PMOS
+.LIB 'Generic_250nm.lib' RES_TYP
+.LIB 'Generic_250nm.lib' CAP_TYP
+.LIB 'Generic_250nm.lib' TT_Bipolar
+.ENDL
+
+.LIB MC
+.LIB 'Generic_250nm.lib' GEN
+.LIB 'Generic_250nm.lib' MC_NMOS
+.LIB 'Generic_250nm.lib' MC_PMOS
+.LIB 'Generic_250nm.lib' RES_MC
+.LIB 'Generic_250nm.lib' CAP_MC
+.LIB 'Generic_250nm.lib' MC_Bipolar
+.ENDL
+
+.LIB LVS
+.GLOBAL lvs_not_exist
+
+.LIB 'Generic_250nm.lib' GEN_LVS
+*.LIB 'Generic_250nm.lib' RES_TYP
+*.LIB 'Generic_250nm.lib' CAP_TYP
+*.LIB 'Generic_250nm.lib' LVS_SUBCIRCUITS
+
+.SUBCKT rhp Pos Neg L=1u W=1u
+R Pos Neg rhp_lvs R='L/W*1008.8'
+.ENDS
+
+.SUBCKT rnp Pos Neg L=1u W=1u
+R Pos Neg rnp_lvs R='L/W*175.3'
+.ENDS
+
+.SUBCKT Capacitor_MiM Pos Neg L=1u W=1u
+C Pos Neg MiM_lvs C='L*W*977.7E-6 + 2*(L+W)*125.7E-12'
+.ENDS
+
+
+.ENDL
+
+.LIB GEN_LVS
+.LIB 'Generic_250nm.lib' Diodes
+.LIB 'Generic_250nm.lib' RES_CAP_GEN
+.MALIAS NMOS25=HD_NMOS25
+.MALIAS PMOS25=HD_PMOS25
+
+.ENDL
+
+.LIB GEN
+.LIB 'Generic_250nm.lib' GEN_LVS
+.LIB 'Generic_250nm.lib' SIM_SUBCIRCUITS
+.ENDL
+
+*****************************************************************************
+* Device Specific parameters
+*****************************************************************************
+.LIB FAST_NMOS
+.PARAM dxlN=-30nm
+.PARAM dxwN=40nm
+.PARAM TOxN=5.29nm
+.PARAM dVthN=-0.07
+.PARAM CjN=1.61m
+.PARAM CjswN=367.9p
+.PARAM CgsdN=488.3p
+.PARAM CjswgN=312.6p
+.LIB 'Generic_250nm.lib' NMOS_MODEL
+.ENDL FAST_NMOS
+
+.LIB TT_NMOS
+.PARAM dxlN=0
+.PARAM dxwN=0
+.PARAM TOxN=5.6nm
+.PARAM dVthN=0.0
+.PARAM CjN=1.7m
+.PARAM CjswN=387.2p
+.PARAM CgsdN=465.0p
+.PARAM CjswgN=329.0p
+.LIB 'Generic_250nm.lib' NMOS_MODEL
+.ENDL TT_NMOS
+
+.LIB SLOW_NMOS
+.PARAM dxlN=30nm
+.PARAM dxwN=-40nm
+.PARAM TOxN=5.91nm
+.PARAM dVthN=0.07
+.PARAM CjN=1.78m
+.PARAM CjswN=406.6p
+.PARAM CgsdN=441.8p
+.PARAM CjswgN=345.5p
+.LIB 'Generic_250nm.lib' NMOS_MODEL
+.ENDL SLOW_NMOS
+
+.LIB MC_NMOS
+.PARAM dxlN=AGAUSS(0, 30n, 3)
+.PARAM dxwN=AGAUSS(0, 40.0n, 3)
+.PARAM TOxN=AGAUSS(5.6n, 103.7p, 1)
+.PARAM dVthN=AGAUSS(0, 0.023, 1)
+.PARAM CjN=AGAUSS(1.7m, 28.32u, 1)
+.PARAM CjswN=AGAUSS(387.2p, 6.45p, 1)
+.PARAM CgsdN=AGAUSS(465.0p, 7.75p, 1)
+.PARAM CjswgN=AGAUSS(329.0p, 5.48p, 1)
+.LIB 'Generic_250nm.lib' NMOS_MODEL
+.ENDL MC_NMOS
+
+.LIB FAST_PMOS
+.PARAM dxlP=-30nm
+.PARAM dxwP=40nm
+.PARAM TOxP=5.29nm
+.PARAM dVthP=0.06
+.PARAM CjP=1.77m
+.PARAM CjswP=325.5p
+.PARAM CgsdP=587.0p
+.PARAM CjswgP=237.5p
+.LIB 'Generic_250nm.lib' PMOS_MODEL
+.ENDL FAST_PMOS
+
+.LIB TT_PMOS
+.PARAM dxlP=0
+.PARAM dxwP=0
+.PARAM TOxP=5.6nm
+.PARAM dVthP=0.0
+.PARAM CjP=1.86m
+.PARAM CjswP=342.7p
+.PARAM CgsdP=559.0p
+.PARAM CjswgP=250.0p
+.LIB 'Generic_250nm.lib' PMOS_MODEL
+.ENDL TT_PMOS
+
+.LIB SLOW_PMOS
+.PARAM dxlP=30nm
+.PARAM dxwP=-40nm
+.PARAM TOxP=5.91nm
+.PARAM dVthP=-0.06
+.PARAM CjP=1.95m
+.PARAM CjswP=359.8p
+.PARAM CgsdP=531.1p
+.PARAM CjswgP=262.5p
+.LIB 'Generic_250nm.lib' PMOS_MODEL
+.ENDL SLOW_PMOS
+
+.LIB MC_PMOS
+.PARAM dxlP=AGAUSS(0, 30n, 3)
+.PARAM dxwP=AGAUSS(0, 40.0n, 3)
+.PARAM TOxP=AGAUSS(5.6n, 103.7p, 1)
+.PARAM dVthP=AGAUSS(0, 0.02, 1)
+.PARAM CjP=AGAUSS(1.86m, 30.97u, 1)
+.PARAM CjswP=AGAUSS(342.7p, 5.71p, 1)
+.PARAM CgsdP=AGAUSS(559.0p, 9.32p, 1)
+.PARAM CjswgP=AGAUSS(250.0p, 4.17p, 1)
+.LIB 'Generic_250nm.lib' PMOS_MODEL
+.ENDL MC_PMOS
+
+.LIB RES_MIN
+.PARAM M1RshMean=70m													$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M1RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M1ContactResMean=0											$# ohms (Mean of the Contact Resistance)
+.PARAM M1ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M1WDelta=-9.6n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M1LDelta=-9.3n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M1Cox=30.0u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M1Csw=21.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM M2RshMean=70m													$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M2RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M2ContactResMean=2.3										$# ohms (Mean of the Contact Resistance)
+.PARAM M2ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M2WDelta=-8.4n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M2LDelta=-8.6n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M2Cox=11.0u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M2Csw=39.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM M3RshMean=70m													$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M3RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M3ContactResMean=4.5											$# ohms (Mean of the Contact Resistance)
+.PARAM M3ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M3WDelta=-7.6n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M3LDelta=-9.2n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M3Cox=9.0u														$# F/m^2 (Bottomwall capacitance)
+.PARAM M3Csw=34.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM M4RshMean=20m													$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M4RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M4ContactResMean=7.6										$# ohms (Mean of the Contact Resistance)
+.PARAM M4ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M4WDelta=-8.6n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M4LDelta=-7.2n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M4Cox=5.0u														$# F/m^2 (Bottomwall capacitance)
+.PARAM M4Csw=22.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1SilRshMean=3.1											$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1SilRshStdev=0											$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1SilContactResMean=4.5								$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1SilContactResStdev=0									$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1SilWDelta=-84.3n										$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1SilLDelta=-127.5n										$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1SilCox=95u												$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1SilCsw=67p												$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1NonSilRshMean=166.8									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1NonSilRshStdev=0										$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1NonSilContactResMean=4.5							$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1NonSilContactResStdev=0								$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1NonSilWDelta=-84.3n									$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1NonSilLDelta=-127.5n									$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1NonSilCox=95u											$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1NonSilCsw=67p											$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1HighRshMean=900.6										$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1HighRshStdev=0											$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1HighContactResMean=Poly1SilContactResMean		$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1HighContactResStdev=Poly1SilContactResStdev	$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1HighWDelta=Poly1SilWDelta							$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1HighLDelta=Poly1SilLDelta							$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1HighCox=Poly1SilCox									$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1HighCsw=Poly1SilCsw									$# F/m (Sidewall Capacitance)
+.LIB 'Generic_250nm.lib' RES_SUBCIRCUITS
+.ENDL RES_MIN
+
+.LIB RES_TYP
+.PARAM M1RshMean=73.6m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M1RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M1ContactResMean=0											$# ohms (Mean of the Contact Resistance)
+.PARAM M1ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M1WDelta=13.7n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M1LDelta=14.1n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M1Cox=34.5u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M1Csw=58.3p													$# F/m (Sidewall Capacitance)
+
+.PARAM M2RshMean=71.4m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M2RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M2ContactResMean=2.7										$# ohms (Mean of the Contact Resistance)
+.PARAM M2ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M2WDelta=16.3n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M2LDelta=14.5n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M2Cox=15.6u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M2Csw=49.7p													$# F/m (Sidewall Capacitance)
+
+.PARAM M3RshMean=71.1m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M3RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M3ContactResMean=5.4										$# ohms (Mean of the Contact Resistance)
+.PARAM M3ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M3WDelta=20.2n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M3LDelta=12.9n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M3Cox=10.8u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M3Csw=43.2p													$# F/m (Sidewall Capacitance)
+
+.PARAM M4RshMean=29.4m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M4RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M4ContactResMean=10.6										$# ohms (Mean of the Contact Resistance)
+.PARAM M4ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M4WDelta=17.4n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M4LDelta=18.7n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M4Cox=6.6u														$# F/m^2 (Bottomwall capacitance)
+.PARAM M4Csw=29.8p													$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1SilRshMean=3.8											$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1SilRshStdev=0											$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1SilContactResMean=4.8								$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1SilContactResStdev=0									$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1SilWDelta=-15.8n										$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1SilLDelta=-40.1n										$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1SilCox=102.3u											$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1SilCsw=72.9p											$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1NoNSilRshMean=175.3									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1NoNSilRshStdev=0										$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1NoNSilContactResMean=4.8							$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1NoNSilContactResStdev=0								$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1NoNSilWDelta=-15.8n									$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1NoNSilLDelta=-40.1n									$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1NoNSilCox=102.3u										$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1NoNSilCsw=72.9p										$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1HighRshMean=1008.8									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1HighRshStdev=0											$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1HighContactResMean=Poly1SilContactResMean		$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1HighContactResStdev=Poly1SilContactResStdev	$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1HighWDelta=Poly1SilWDelta							$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1HighLDelta=Poly1SilLDelta							$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1HighCox=Poly1SilCox									$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1HighCsw=Poly1SilCsw									$# F/m (Sidewall Capacitance)
+.LIB 'Generic_250nm.lib' RES_SUBCIRCUITS
+.ENDL RES_TYP
+
+.LIB RES_MAX
+.PARAM M1RshMean=80.0m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M1RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M1ContactResMean=0											$# ohms (Mean of the Contact Resistance)
+.PARAM M1ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M1WDelta=21.3n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M1LDelta=8.9n													$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M1Cox=39.0u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M1Csw=76.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM M2RshMean=80.0m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M2RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M2ContactResMean=3.4										$# ohms (Mean of the Contact Resistance)
+.PARAM M2ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M2WDelta=41.2n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M2LDelta=41.6n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M2Cox=20.0u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M2Csw=62.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM M3RshMean=80.0m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M3RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M3ContactResMean=6.5										$# ohms (Mean of the Contact Resistance)
+.PARAM M3ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M3WDelta=42.5n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M3LDelta=42.7n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M3Cox=13.0u													$# F/m^2 (Bottomwall capacitance)
+.PARAM M3Csw=56.0p													$# F/m (Sidewall Capacitance)
+
+.PARAM M4RshMean=40.0m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M4RshStdev=0													$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M4ContactResMean=13.3										$# ohms (Mean of the Contact Resistance)
+.PARAM M4ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M4WDelta=44.9n												$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M4LDelta=44.9n												$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M4Cox=12.0u														$# F/m^2 (Bottomwall capacitance)
+.PARAM M4Csw=42.0p
+
+.PARAM Poly1SilRshMean=4.4											$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1SilRshStdev=0											$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1SilContactResMean=5.4								$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1SilContactResStdev=0									$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1SilWDelta=59.2n										$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1SilLDelta=71.8n										$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1SilCox=112.0u											$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1SilCsw=80.0p											$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1NonSilRshMean=204.7									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1NonSilRshStdev=0										$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1NonSilContactResMean=5.4							$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1NonSilContactResStdev=0								$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1NonSilWDelta=59.2n									$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1NonSilLDelta=71.8n									$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1NonSilCox=112.0u										$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1NonSilCsw=80.0p										$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1HighRshMean=1098.8									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1HighRshStdev=0											$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1HighContactResMean=Poly1SilContactResMean	$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1HighContactResStdev=Poly1SilContactResStdev	$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1HighWDelta=Poly1SilWDelta							$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1HighLDelta=Poly1SilLDelta							$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1HighCox=Poly1SilCox									$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1HighCsw=Poly1SilCsw									$# F/m (Sidewall Capacitance)
+.LIB 'Generic_250nm.lib' RES_SUBCIRCUITS
+.ENDL RES_MAX
+
+.LIB RES_MC
+.PARAM M1RshMean=73.6m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M1RshStdev=4.83m												$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M1ContactResMean=0											$# ohms (Mean of the Contact Resistance)
+.PARAM M1ContactResStdev=0											$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M1WDelta=AGAUSS(13.7n, 13.37n, 1)						$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M1LDelta=AGAUSS(14.1n, 16.78n, 1)						$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M1Cox=AGAUSS(34.5u, 2.2u, 1)								$# F/m^2 (Bottomwall capacitance)
+.PARAM M1Csw=AGAUSS(58.3p, 26.67p, 1)							$# F/m (Sidewall Capacitance)
+
+.PARAM M2RshMean=71.4m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M2RshStdev=3.52m												$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M2ContactResMean=2.7										$# ohms (Mean of the Contact Resistance)
+.PARAM M2ContactResStdev=0.29										$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M2WDelta=AGAUSS(16.3n, 15.41n, 1)						$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M2LDelta=AGAUSS(14.5n, 15.05n, 1)						$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M2Cox=AGAUSS(15.6u, 2.53u, 1)							$# F/m^2 (Bottomwall capacitance)
+.PARAM M2Csw=AGAUSS(49.7p, 7.42p, 1)							$# F/m (Sidewall Capacitance)
+
+.PARAM M3RshMean=71.1m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M3RshStdev=3.2m												$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M3ContactResMean=5.4										$# ohms (Mean of the Contact Resistance)
+.PARAM M3ContactResStdev=0.44										$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M3WDelta=AGAUSS(20.2n, 14.78n, 1)						$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M3LDelta=AGAUSS(12.9n, 15.70n, 1)						$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M3Cox=AGAUSS(10.8u, 1.40u, 1)							$# F/m^2 (Bottomwall capacitance)
+.PARAM M3Csw=AGAUSS(43.2p, 6.97p, 1)							$# F/m (Sidewall Capacitance)
+
+.PARAM M4RshMean=29.4m												$# ohms/square (Mean of the Sheet Resistance)
+.PARAM M4RshStdev=8.14												$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM M4ContactResMean=10.6										$# ohms (Mean of the Contact Resistance)
+.PARAM M4ContactResStdev=0.93										$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM M4WDelta=AGAUSS(17.4n, 15.47n, 1)						$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM M4LDelta=AGAUSS(18.7n, 16.69n, 1)						$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM M4Cox=AGAUSS(6.6u, 1.80u, 1)								$# F/m^2 (Bottomwall capacitance)
+.PARAM M4Csw=AGAUSS(29.8p, 6.97p, 1)							$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1SilRshMean=3.8											$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1SilRshStdev=0.34										$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1SilContactResMean=4.8								$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1SilContactResStdev=0.21								$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1SilWDelta=AGAUSS(-15.8n, 29.81n, 1)				$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1SilLDelta=AGAUSS(-40.1n, 35.20n, 1)				$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1SilCox=AGAUSS(102.3u, 3.75u, 1)					$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1SilCsw=AGAUSS(72.9p, 3.11p, 1)					$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1NonSilRshMean=175.3									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1NonSilRshStdev=6.71									$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1NonSilContactResMean=4.8							$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1NonSilContactResStdev=0.21							$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1NonSilWDelta=AGAUSS(-15.8n, 29.81n, 1)			$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1NonSilLDelta=AGAUSS(-40.1n, 35.20n, 1)			$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1NonSilCox=AGAUSS(102.3u, 3.75u, 1)				$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1NonSilCsw=AGAUSS(72.9p, 3.11p, 1)				$# F/m (Sidewall Capacitance)
+
+.PARAM Poly1HighRshMean=1008.8									$# ohms/square (Mean of the Sheet Resistance)
+.PARAM Poly1HighRshStdev=61.06									$# ohms^1/2 (Standard Deviation of the Sheet Resistance)
+.PARAM Poly1HighContactResMean=Poly1SilContactResMean		$# ohms (Mean of the Contact Resistance)
+.PARAM Poly1HighContactResStdev=Poly1SilContactResStdev	$# ohms (Standard Deviation of the Contact Resistance)
+.PARAM Poly1HighWDelta=Poly1SilWDelta							$# meters (Delta Width - EffectiveWidth = Wdrawn - 2*WDelta)
+.PARAM Poly1HighLDelta=Poly1SilLDelta							$# meters (Delta Length - EffectiveLength = Ldrawn - 2*LDelta)
+.PARAM Poly1HighCox=Poly1SilCox									$# F/m^2 (Bottomwall capacitance)
+.PARAM Poly1HighCsw=Poly1SilCsw									$# F/m (Sidewall Capacitance)
+.LIB 'Generic_250nm.lib' RES_SUBCIRCUITS
+.ENDL RES_MC
+
+.LIB CAP_MIN
+.PARAM MiMareaMean=928.0u											$# F/m^2 (Mean of the Area Capacitance)
+.PARAM MiMareaStdev=0												$# F^1/2/m (Standard Deviation of the Area Capacitance)
+.PARAM MiMfringeMean=102.0p										$# F/m (Mean of the Fringe Capacitance)
+.PARAM MiMfringeStdev=0												$# (F/m)^1/2 (Standard Deviation of the Fringe Capacitance)
+.LIB 'Generic_250nm.lib' CAP_SUBCIRCUITS
+.ENDL
+
+.LIB CAP_TYP
+.PARAM MiMareaMean=977.7u											$# F/m^2 (Mean of the Area Capacitance)
+.PARAM MiMareaStdev=0												$# F^1/2/m (Standard Deviation of the Area Capacitance)
+.PARAM MiMfringeMean=125.7p										$# F/m (Mean of the Fringe Capacitance)
+.PARAM MiMfringeStdev=0												$# (F/m)^1/2 (Standard Deviation of the Fringe Capacitance)
+.LIB 'Generic_250nm.lib' CAP_SUBCIRCUITS
+.ENDL
+
+.LIB CAP_MAX
+.PARAM MiMareaMean=1044u											$# F/m^2 (Mean of the Area Capacitance)
+.PARAM MiMareaStdev=0												$# F^1/2/m (Standard Deviation of the Area Capacitance)
+.PARAM MiMfringeMean=148p											$# F/m (Mean of the Fringe Capacitance)
+.PARAM MiMfringeStdev=0												$# (F/m)^1/2 (Standard Deviation of the Fringe Capacitance)
+.LIB 'Generic_250nm.lib' CAP_SUBCIRCUITS
+.ENDL
+
+.LIB CAP_MC
+.PARAM MiMareaMean=977.7u											$# F/m^2 (Mean of the Area Capacitance)
+.PARAM MiMareaStdev=23.78u											$# F^1/2/m (Standard Deviation of the Area Capacitance)
+.PARAM MiMfringeMean=125.7p										$# F/m (Mean of the Fringe Capacitance)
+.PARAM MiMfringeStdev=10.83p										$# (F/m)^1/2 (Standard Deviation of the Fringe Capacitance)
+.LIB 'Generic_250nm.lib' CAP_SUBCIRCUITS
+.ENDL
+
+.LIB RES_CAP_GEN
+
+.PARAM M1HeadLength=0												$# meters (Distance from Resistor ID or Implant to the contact in the head of the resistor)
+.PARAM M1TC1=3900u													$# Degrees^-1 (First Order Temperature Coefficient)
+.PARAM M1TC2=0															$# Degrees^-2 (Second Order Temperature Coefficient)
+.PARAM M1VC1=0															$# Volts^-1 (First Order Voltage Coefficient)
+.PARAM M1VC2=0															$# Volts^-2 (Second Order Voltage Coefficient)
+
+.PARAM Poly1SilHeadLength=0										$# meters (Distance from Resistor ID or Implant to the contact in the head of the resistor)
+.PARAM Poly1SilTC1=500u												$# Degrees^-1 (First Order Temperature Coefficient)
+.PARAM Poly1SilTC2=0													$# Degrees^-2 (Second Order Temperature Coefficient)
+.PARAM Poly1SilVC1=100u												$# Volts^-1 (First Order Voltage Coefficient)
+.PARAM Poly1SilVC2=0													$# Volts^-2 (Second Order Voltage Coefficient)
+
+.PARAM Poly1NonSilHeadLength=0.40u								$# meters (Distance from Resistor ID or Implant to the contact in the head of the resistor)
+.PARAM Poly1NonSilTC1=500u											$# Degrees^-1 (First Order Temperature Coefficient)
+.PARAM Poly1NonSilTC2=0												$# Degrees^-2 (Second Order Temperature Coefficient)
+.PARAM Poly1NonSilVC1=100u											$# Volts^-1 (First Order Voltage Coefficient)
+.PARAM Poly1NonSilVC2=0												$# Volts^-2 (Second Order Voltage Coefficient)
+
+.PARAM Poly1HighHeadLength=0.40u									$# meters (Distance from Resistor ID or Implant to the contact in the head of the resistor)
+.PARAM Poly1HighTC1=500u											$# Degrees^-1 (First Order Temperature Coefficient)
+.PARAM Poly1HighTC2=0												$# Degrees^-2 (Second Order Temperature Coefficient)
+.PARAM Poly1HighVC1=100u											$# Volts^-1 (First Order Voltage Coefficient)
+.PARAM Poly1HighVC2=0												$# Volts^-2 (Second Order Voltage Coefficient)
+
+.PARAM MiMTC1=3900u													$# Degrees^-1 (First Order Temperature Coefficient)
+.PARAM MiMTC2=0														$# Degrees^-2 (Second Order Temperature Coefficient)
+.PARAM MiMVC1=0														$# Volts^-1 (First Order Voltage Coefficient)
+.PARAM MiMVC2=0														$# Volts^-2 (Second Order Voltage Coefficient)
+
+.ENDL
+
+.LIB TT_Bipolar
+.PARAM pnp_is_mis = 1.00
+.PARAM pnp_bf_mis = 1.00
+.PARAM pnp_nf_mis = 1.00
+.PARAM pnp_vaf_mis = 1.00
+.PARAM pnp_cjc_mis = 1.00
+.PARAM pnp_cje_mis = 1.00
+.PARAM pnp_rb_mis = 1.00
+.PARAM pnp_re_mis = 1.00
+.LIB 'Generic_250nm.lib' Bipolars
+.ENDL
+
+.LIB Fast_Bipolar
+.PARAM pnp_is_mis = 1.25
+.PARAM pnp_bf_mis = 1.20
+.PARAM pnp_nf_mis = 0.95
+.PARAM pnp_vaf_mis = 1.15
+.PARAM pnp_cjc_mis = 0.80
+.PARAM pnp_cje_mis = 0.80
+.PARAM pnp_rb_mis = 0.80
+.PARAM pnp_re_mis = 0.80
+.LIB 'Generic_250nm.lib' Bipolars
+.ENDL
+
+.LIB Slow_Bipolar
+.PARAM pnp_is_mis = 0.65
+.PARAM pnp_bf_mis = 0.70
+.PARAM pnp_nf_mis = 1.05
+.PARAM pnp_vaf_mis = 0.85
+.PARAM pnp_cjc_mis = 1.20
+.PARAM pnp_cje_mis = 1.20
+.PARAM pnp_rb_mis = 1.20
+.PARAM pnp_re_mis = 1.20
+.LIB 'Generic_250nm.lib' Bipolars
+.ENDL
+
+.LIB MC_Bipolar
+.PARAM pnp_is_mis = AGAUSS(0.95, 0.30, 3)
+.PARAM pnp_bf_mis = AGAUSS(0.95, 0.25, 3)
+.PARAM pnp_nf_mis = AGAUSS(1.00, 0.05, 3)
+.PARAM pnp_vaf_mis = AGAUSS(1.00, 0.15, 3)
+.PARAM pnp_cjc_mis = AGAUSS(1.00, 0.20, 3)
+.PARAM pnp_cje_mis = AGAUSS(1.00, 0.20, 3)
+.PARAM pnp_rb_mis = AGAUSS(1.00, 0.20, 3)
+.PARAM pnp_re_mis = AGAUSS(1.00, 0.20, 3)
+.LIB 'Generic_250nm.lib' Bipolars
+.ENDL
+
+.LIB Diodes
+.MODEL RegDiode D LEVEL=3 IS=10p BV=5 TT=1.2n
+.ENDL
+
+.LIB NMOS_MODEL
+
+.MODEL NMOS25 NMOS (                               LEVEL   = 49
++VERSION = 3.3            TNOM    = 27             TOX     = 'TOxN'
++XJ      = 1E-7           NCH     = 2.3549E17      VTH0    = '0.3703728+dVthN'
++K1      = 0.4681093      K2      = 7.541163E-4    K3      = 1E-3
++K3B     = 1.6723088      W0      = 1E-7           NLX     = 1.586853E-7
++DVT0W   = 0              DVT1W   = 0              DVT2W   = 0
++DVT0    = 0.5681239      DVT1    = 0.6650313      DVT2    = -0.5
++U0      = 284.0529492    UA      = -1.538419E-9   UB      = 2.706778E-18
++UC      = 2.748569E-11   VSAT    = 1.293771E5     A0      = 1.5758996
++AGS     = 0.2933081      B0      = -5.433191E-9   B1      = -1E-7
++KETA    = -4.899001E-3   A1      = 3.196943E-5    A2      = 0.5018403
++RDSW    = 126.2217131    PRWG    = 0.5            PRWB    = -0.2
++WR      = 1              WINT    = 0              LINT    = 1.34656E-9
++XL      = 'dxlN'         XW      = '-4E-8+dxwN'   DWG     = -1.127362E-8
++DWB     = -3.779056E-9   VOFF    = -0.0891381     NFACTOR = 1.29317
++CIT     = 0              CDSC    = 2.4E-4         CDSCD   = 0
++CDSCB   = 0              ETA0    = 6.291887E-3    ETAB    = 3.385328E-4
++DSUB    = 0.0449797      PCLM    = 1.5905872      PDIBLC1 = 1
++PDIBLC2 = 2.421388E-3    PDIBLCB = -0.0752287     DROUT   = 0.9999731
++PSCBE1  = 7.947415E10    PSCBE2  = 5.8496E-10     PVAG    = 1.01007E-7
++DELTA   = 0.01           RSH     = 3.9            MOBMOD  = 1
++PRT     = 0              UTE     = -1.5           KT1     = -0.11
++KT1L    = 0              KT2     = 0.022          UA1     = 4.31E-9
++UB1     = -7.61E-18      UC1     = -5.6E-11       AT      = 3.3E4
++WL      = 0              WLN     = 1              WW      = 0
++WWN     = 1              WWL     = 0              LL      = 0
++LLN     = 1              LW      = 0              LWN     = 1
++LWL     = 0              CAPMOD  = 2              XPART   = 0.5
++CGDO    = 'CgsdN'        CGSO    = 'CgsdN'        CGBO    = 5E-10
++CJ      = 'CjN'			  PB      = 0.99           MJ      = 0.450283
++CJSW    = 'CjswN'        PBSW    = 0.8211413      MJSW    = 0.2881135
++CJSWG   = 'CjswgN'       PBSWG   = 0.8211413      MJSWG   = 0.2881135
++CF      = 0              PVTH0   = -9.283858E-3   PRDSW   = -10
++PK2     = 4.074676E-3    WKETA   = 7.164908E-3    LKETA   = -7.349276E-3
++NOIMOD	= 1 )
+
+.MODEL NMOS33 NMOS (LEVEL = 49
++ A0 = 3.356
++ A1 = 1.514E-05
++ A2 = 0.579
++ AGS = -0.326
++ AT = 3.771E+04
++ B0 = -9.719E-09
++ B1 = -9.966E-08
++ CAPMOD = 2
++ CDSC = 2.400E-04
++ CGBO = 1.000E-12
++ CGDO = 9.943E-10
++ CGSO = 9.943E-10
++ CJ = 3.519E-09
++ CJSW = 2.531E-04
++ CJSWG = 1.640E-10
++ DELTA = 0.010
++ DROUT = 0.999
++ DSUB = 0.043
++ DVT0 = 0.586
++ DVT0W = 0.000
++ DVT1 = 0.714
++ DVT1W = 0.000
++ DVT2 = -0.500
++ DVT2W = 0.000
++ DWB = 6.177E-09
++ DWG = -1.469E-08
++ ETA0 = 4.085E-04
++ ETAB = -9.177E-04
++ K1 = 0.661
++ K2 = 0.001
++ K3 = 0.001
++ K3B = 2.590
++ KETA = -0.003
++ KT1 = -0.156
++ KT1L = 0.000
++ KT2 = 0.010
++ LINT = 2.294E-10
++ LKETA = -5.374E-03
++ LL = 0
++ LLN = 1
++ LW = 0
++ LWL = 0
++ LWN = 1
++ MJ = 0.353
++ MJSW = 0.150
++ MJSWG = 0.150
++ MOBMOD = 1
++ NCH = 2.619E+17
++ NFACTOR = 1.504
++ NLX = 1.690E-07
++ PCLM = 0.712
++ PDIBLC1 = 0.989
++ PDIBLC2 = 2.480E-03
++ PDIBLCB = -7.078E-02
++ PK2 = -3.510E-03
++ PRDSW = -10.000
++ PRT = 0.000
++ PRWB = -0.200
++ PRWG = 0.266
++ PSCBE1 = 1.021E+11
++ PSCBE2 = 5.000E-10
++ PVAG = 6.153E-03
++ PVTH0 = -4.409E-02
++ RDSW = 497.2
++ RSH = 3.500
++ TNOM = 27
++ TOX = 7.429E-09
++ U0 = 443.3
++ UA = -2.941E-09
++ UA1 = -4.346E-09
++ UB = 3.491E-18
++ UB1 = -7.610E-18
++ UC = 4.051E-12
++ UC1 = -3.703E-11
++ UTE = -2.152
++ VERSION = 3.1
++ VOFF = -0.103
++ VSAT = 2.449E+05
++ VTH0 = 0.431
++ W0 = 1.000E-07
++ WINT = 0.000
++ WKETA = 7.642E-03
++ WL = 0.000
++ WLN = 1.000
++ WR = 1.000
++ WW = 0.000
++ WWL = 0.000
++ WWN = 1.000
++ XJ = 1.000E-07
++ XL = 0.000
++ XPART = 0.5
++ XW = 0.000
++NOIMOD = 1)
+
+.ENDL NMOS_MODEL
+
+.LIB PMOS_MODEL
+
+*****************************************************************************
+* PMOS Model
+*****************************************************************************
+.MODEL PMOS25 PMOS (                               LEVEL   = 49
++VERSION = 3.3            TNOM    = 27             TOX     = 'TOxP'
++XJ      = 1E-7           NCH     = 4.1589E17      VTH0    = '-0.4935548+dVthP'
++K1      = 0.6143278      K2      = 6.804492E-4    K3      = 0
++K3B     = 5.8844074      W0      = 1E-6           NLX     = 6.938169E-9
++DVT0W   = 0              DVT1W   = 0              DVT2W   = 0
++DVT0    = 2.3578746      DVT1    = 0.7014778      DVT2    = -0.1881376
++U0      = 100            UA      = 9.119231E-10   UB      = 1E-21
++UC      = -1E-10         VSAT    = 1.782051E5     A0      = 0.9704347
++AGS     = 0.1073973      B0      = 2.773991E-7    B1      = 8.423987E-7
++KETA    = 0.0104811      A1      = 0.0193128      A2      = 0.3
++RDSW    = 694.5830247    PRWG    = 0.3169639      PRWB    = -0.1958978
++WR      = 1              WINT    = 0              LINT    = 2.971337E-8
++XL      = 'dxlP'         XW      = '-4E-8+dxwP'   DWG     = -2.967296E-8
++DWB     = -2.31786E-10   VOFF    = -0.1152095     NFACTOR = 1.1064678
++CIT     = 0              CDSC    = 2.4E-4         CDSCD   = 0
++CDSCB   = 0              ETA0    = 0.3676411      ETAB    = -0.0915241
++DSUB    = 1.1089801      PCLM    = 1.3226289      PDIBLC1 = 9.913816E-3
++PDIBLC2 = 1.499968E-6   PDIBLCB = -1E-3          DROUT   = 0.1276027
++PSCBE1  = 8E10           PSCBE2  = 5.772776E-10   PVAG    = 0.0135936
++DELTA   = 0.01           RSH     = 3              MOBMOD  = 1
++PRT     = 0              UTE     = -1.5           KT1     = -0.11
++KT1L    = 0              KT2     = 0.022          UA1     = 4.31E-9
++UB1     = -7.61E-18      UC1     = -5.6E-11       AT      = 3.3E4
++WL      = 0              WLN     = 1              WW      = 0
++WWN     = 1              WWL     = 0              LL      = 0
++LLN     = 1              LW      = 0              LWN     = 1
++LWL     = 0              CAPMOD  = 2              XPART   = 0.5
++CGDO    = 'CgsdP'        CGSO    = 'CgsdP'        CGBO    = 5E-10
++CJ      = 'CjP'          PB      = 0.9771691      MJ      = 0.4686434
++CJSW    = 'CjswP'        PBSW    = 0.871788       MJSW    = 0.3314778
++CJSWG   = 'CjswgP'       PBSWG   = 0.871788       MJSWG   = 0.3314778
++CF      = 0              PVTH0   = 4.137981E-3    PRDSW   = 7.2931065
++PK2     = 2.600307E-3    WKETA   = 0.0192532      LKETA   = -5.972879E-3
++NOIMOD	= 1    )
+
+.MODEL PMOS33 PMOS (LEVEL = 49
++ A0 = 3.631
++ A1 = 2.363E-02
++ A2 = 0.200
++ AGS = 0.286
++ AT = 3.300E+04
++ B0 = 7.893E-08
++ B1 = -9.287E-08
++ CAPMOD = 2
++ CDSC = 2.400E-04
++ CGBO = 1.000E-12
++ CGDO = 9.379E-10
++ CGSO = 9.379E-10
++ CJ = 6.817E-04
++ CJSW = 3.512E-10
++ CJSWG = 2.647E-10
++ DELTA = 0.010
++ DROUT = 0.156
++ DSUB = 1.405
++ DVT0 = 2.128
++ DVT0W = 0.000
++ DVT1 = 0.819
++ DVT1W = 0.000
++ DVT2 = -0.212
++ DVT2W = 0.000
++ DWB = -2.422E-09
++ DWG = -3.690E-08
++ ETA0 = 0.225
++ ETAB = -0.193
++ K1 = 0.727
++ K2 = 0.000
++ K3 = 0.099
++ K3B = 5.885
++ KETA = -0.005
++ KT1 = -0.069
++ KT1L = 0.000
++ KT2 = 0.008
++ LINT = 8.213E-09
++ LKETA = 1.748E-02
++ LL = 0
++ LLN = 1
++ LW = 0
++ LWL = 0
++ LWN = 1
++ MJ = 0.479
++ MJSW = 0.319
++ MJSWG = 0.319
++ MOBMOD = 1
++ NCH = 4.069E+17
++ NFACTOR = 1.135
++ NLX = 8.215E-09
++ PCLM = 2.796
++ PDIBLC1 = 0.012
++ PDIBLC2 = -2.000E-07
++ PDIBLCB = -1.000E-03
++ PK2 = -2.017E-02
++ PRDSW = 18.091
++ PRT = 0.000
++ PRWB = -0.149
++ PRWG = 0.066
++ PSCBE1 = 6.340E+10
++ PSCBE2 = 2.896E-10
++ PVAG = 8.269E-03
++ PVTH0 = -7.892E-04
++ RDSW = 1324.8
++ RSH = 2.900
++ TNOM = 27
++ TOX = 7.429E-09
++ U0 = 127.7
++ UA = 2.114E-09
++ UA1 = 4.568E-09
++ UB = -1.918E-21
++ UB1 = -7.610E-18
++ UC = -1.116E-09
++ UC1 = -1.015E-10
++ UTE = -1.298
++ VERSION = 3.1
++ VOFF = -0.251
++ VSAT = 1.954E+05
++ VTH0 = -0.907
++ W0 = 1.000E-06
++ WINT = 0.000
++ WKETA = -1.150E-01
++ WL = 0.000
++ WLN = 1.000
++ WR = 1.000
++ WW = 0.000
++ WWL = 0.000
++ WWN = 1.000
++ XJ = 1.000E-07
++ XL = 0.000
++ XPART = 0.5
++ XW = 0.000
++NOIMOD = 1)
+
+.MALIAS PMOS25=MOSRes
+
+.ENDL PMOS_MODEL
+
+.LIB Bipolars
+.model pnp pnp level = 1
++ is = '3.0E-18*pnp_is_mis'
++ bf = '2.1*pnp_bf_mis' 
++ nf = '1.00*pnp_nf_mis' 
++ vaf = '150*pnp_vaf_mis' 
++ CJC = '1.800E-13*pnp_cjc_mis'
++ CJE = '9.000E-14*pnp_cje_mis'
++ RB = '50.00*pnp_rb_mis'
++ RE = '14.00*pnp_re_mis'
++ BR = 1.00
++ CTC = 5.000E-04
++ CTE = 5.000E-04
++ EG = 1.11
++ FC = 0.50
++ IKF = 3.240E-03
++ IKR = 2.520E-04
++ IRB = 5.000E-04
++ IS = 8.640E-18
++ ISC = 8.640E-18
++ ISE = 8.640E-18
++ MJC = 0.33
++ MJE = 0.33
++ NC = 1.60
++ NE = 1.25
++ NF = 1.00
++ NKF = 0.50
++ NR = 1.00
++ RBM = 5.00
++ RC = 100.00
++ RE = 14.00
++ TBF1 = 5.000E-03
++ TBF2 = 5.000E-06
++ TBR1 = 2.500E-03
++ TBR2 = 2.500E-06
++ TIKF1 = -5.000E-03
++ TIKF2 = 5.000E-06
++ TIKR1 = -5.000E-03
++ TIKR2 = -5.000E-06
++ TIRB1 = 5.000E-06
++ TIRB2 = 5.000E-08
++ TNC1 = 5.000E-04
++ TNC2 = 2.000E-06
++ TNE1 = 5.000E-04
++ TNE2 = 2.000E-06
++ TNF1 = 5.000E-06
++ TNF2 = -5.000E-07
++ TNR1 = 2.000E-04
++ TNR2 = -2.000E-05
++ TRB1 = 5.000E-04
++ TRC1 = 5.000E-05
++ TRE1 = 5.000E-03
++ TREF = 27
++ TRM1 = 5.000E-04
++ TVAF1 = -5.000E-05
++ TVJC = 5.000E-03
++ TVJE = 5.000E-03
++ VAF = 75.00
++ VAR = 12.00
++ VJC = 0.75
++ VJE = 0.75
++ XTI = 3.00
+.ENDL
+
+**************************************************************************************************************
+* Subcircuits to map for Simulation 
+**************************************************************************************************************
+.LIB RES_SUBCIRCUITS
+
+**********************
+* Metal Resistors
+**********************
+.SUBCKT Res_M1 Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+
+.PARAM RshCalc = 'M1RshMean+Rand*M1RshStdev'
+.PARAM ContResCalc = 'M1ContactResMean+Rand*M1ContactResStdev'
+.PARAM TC1Calc = '((TC1!=0) ? TC1 : M1TC1)'
+.PARAM TC2Calc = '((TC2!=0) ? TC2 : M1TC2)'
+.PARAM VC1Calc = '((VC1!=0) ? VC1 : M1VC1)'
+.PARAM VC2Calc = '((VC2!=0) ? VC2 : M1VC2)'
+
+X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=M1WDelta dL=M1LDelta 
++ContRes=ContResCalc HeadLen=M1HeadLength HeadRsh=RshCalc Cox=M1Cox Csw=M1Csw
++VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+
+.ENDS
+
+*.SUBCKT Res_M2 Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+*
+*.PARAM RshCalc = 'M2RshMean+Rand*M2RshStdev'
+*.PARAM ContResCalc = 'M2ContactResMean+Rand*M2ContactResStdev'
+*.PARAM TC1Calc = '((TC1!=0) ? TC1 : M2TC1)'
+*.PARAM TC2Calc = '((TC2!=0) ? TC2 : M2TC2)'
+*.PARAM VC1Calc = '((VC1!=0) ? VC1 : M2VC1)'
+*.PARAM VC2Calc = '((VC2!=0) ? VC2 : M2VC2)'
+*
+*X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=M2WDelta dL=M2LDelta
+*+ContRes=ContResCalc HeadLen=M2HeadLength HeadRsh=RshCalc Cox=M2Cox Csw=M2Csw
+*+VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+*
+*.ENDS
+
+**********************
+* Poly1 Resistor
+**********************
+.SUBCKT Res_Poly1_Silicide_2T Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+
+.PARAM RshCalc = 'Poly1SilRshMean+Rand*Poly1SilRshStdev'
+.PARAM ContResCalc = 'Poly1SilContactResMean+Rand*Poly1SilContactResStdev'
+.PARAM TC1Calc = '((TC1!=0) ? TC1 : Poly1SilTC1)'
+.PARAM TC2Calc = '((TC2!=0) ? TC2 : Poly1SilTC2)'
+.PARAM VC1Calc = '((VC1!=0) ? VC1 : Poly1SilVC1)'
+.PARAM VC2Calc = '((VC2!=0) ? VC2 : Poly1SilVC2)'
+
+X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=Poly1SilWDelta dL=Poly1SilLDelta
++ContRes=ContResCalc HeadLen=Poly1SilHeadLength HeadRsh=RshCalc Cox=Poly1SilCox Csw=Poly1SilCsw 
++VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+
+.ENDS
+
+.SUBCKT rnp Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 $Rand=0
+.PARAM Rand=AGAUSS(0,1,1)
+.PARAM RshCalc = 'Poly1NonSilRshMean+Rand*Poly1NonSilRshStdev'
+.PARAM ContResCalc = 'Poly1NonSilContactResMean+Rand*Poly1NonSilContactResStdev'
+.PARAM TC1Calc = '((TC1!=0) ? TC1 : Poly1NonSilTC1)'
+.PARAM TC2Calc = '((TC2!=0) ? TC2 : Poly1NonSilTC2)'
+.PARAM VC1Calc = '((VC1!=0) ? VC1 : Poly1NonSilVC1)'
+.PARAM VC2Calc = '((VC2!=0) ? VC2 : Poly1NonSilVC2)'
+
+X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=Poly1NonSilWDelta dL=Poly1NonSilLDelta
++ContRes=ContResCalc HeadLen=Poly1NonSilHeadLength HeadRsh=RshCalc Cox=Poly1NonSilCox Csw=Poly1NonSilCsw 
++VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+
+.ENDS
+
+.SUBCKT rhp Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 $Rand=0
+.PARAM Rand=AGAUSS(0,1,1)
+.PARAM RshCalc = 'Poly1HighRshMean+Rand*Poly1HighRshStdev'
+.PARAM ContResCalc = 'Poly1HighContactResMean+Rand*Poly1HighContactResStdev'
+.PARAM TC1Calc = '((TC1!=0) ? TC1 : Poly1HighTC1)'
+.PARAM TC2Calc = '((TC2!=0) ? TC2 : Poly1HighTC2)'
+.PARAM VC1Calc = '((VC1!=0) ? VC1 : Poly1HighVC1)'
+.PARAM VC2Calc = '((VC2!=0) ? VC2 : Poly1HighVC2)'
+
+X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=Poly1HighWDelta dL=Poly1HighLDelta
++ContRes=ContResCalc HeadLen=Poly1HighHeadLength HeadRsh=RshCalc Cox=Poly1HighCox Csw=Poly1HighCsw
++VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+
+.ENDS
+
+**********************
+* Diffusion Resistors
+**********************
+*.SUBCKT Res_Diff_N_2T Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+*
+*.PARAM RshCalc = 'NDiffRshMean+Rand*NDiffRshStdev'
+*.PARAM ContResCalc = 'NDiffContactResMean+Rand*NDiffContactResStdev'
+*.PARAM TC1Calc = '((TC1!=0) ? TC1 : NDiffTC1)'
+*.PARAM TC2Calc = '((TC2!=0) ? TC2 : NDiffTC2)'
+*.PARAM VC1Calc = '((VC1!=0) ? VC1 : NDiffVC1)'
+*.PARAM VC2Calc = '((VC2!=0) ? VC2 : NDiffVC2)'
+*
+*X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=NDiffWDelta dL=NDiffLDelta
+*+ContRes=ContResCalc HeadLen=NDiffHeadLength HeadRsh=RshCalc Cox=NDiffCox Csw=NDiffCsw
+*+VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+*
+*.ENDS
+*
+*.SUBCKT Res_Diff_P_2T Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+*
+*.PARAM RshCalc = 'PDiffRshMean+Rand*PDiffRshStdev'
+*.PARAM ContResCalc = 'PDiffContactResMean+Rand*PDiffContactResStdev'
+*.PARAM TC1Calc = '((TC1!=0) ? TC1 : PDiffTC1)'
+*.PARAM TC2Calc = '((TC2!=0) ? TC2 : PDiffTC2)'
+*.PARAM VC1Calc = '((VC1!=0) ? VC1 : PDiffVC1)'
+*.PARAM VC2Calc = '((VC2!=0) ? VC2 : PDiffVC2)'
+*
+*X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=PDiffWDelta dL=PDiffLDelta
+*+ContRes=ContResCalc HeadLen=PDiffHeadLength HeadRsh=RshCalc Cox=PDiffCox Csw=PDiffCsw
+*+VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+*
+*.ENDS
+
+**********************
+* N-Well Resistors
+**********************
+*.SUBCKT Res_NWell_2T Pos Neg L=1u W=1u NS=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+*
+*.PARAM RshCalc = 'NWellRshMean+Rand*NWellRshStdev'
+*.PARAM ContResCalc = 'NDiffContactResMean+Rand*NDiffContactResStdev'
+*.PARAM TC1Calc = '((TC1!=0) ? TC1 : NWellTC1)'
+*.PARAM TC2Calc = '((TC2!=0) ? TC2 : NWellTC2)'
+*.PARAM VC1Calc = '((VC1!=0) ? VC1 : NWellVC1)'
+*.PARAM VC2Calc = '((VC2!=0) ? VC2 : NWellVC2)'
+*
+*X1 Pos Neg IC_Res_2T L='L' W='W' NS='NS' Rsh=RshCalc dW=NWellWDelta dL=NWellLDelta
+*+ContRes=ContResCalc HeadLen=NWellHeadLength HeadRsh=NDiffRshMean Cox=NWellCox Csw=NWellCsw
+*+VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+*
+*.ENDS
+
+.ENDL RES_SUBCIRCUITS
+
+.LIB CAP_SUBCIRCUITS
+
+**********************
+* MiM Capacitors
+**********************
+.SUBCKT Capacitor_MIM Pos Neg L=1u W=1u M=1 TC1=0 TC2=0 VC1=0 VC2=0 Rand=0
+
+.PARAM AreaCalc = 'MiMareaMean+Rand*MiMareaStdev'
+.PARAM FringeCalc = 'MiMfringeMean+Rand*MiMfringeStdev'
+.PARAM TC1Calc = '((TC1!=0) ? TC1 : MiMTC1)'
+.PARAM TC2Calc = '((TC2!=0) ? TC2 : MiMTC2)'
+.PARAM VC1Calc = '((VC1!=0) ? VC1 : MiMVC1)'
+.PARAM VC2Calc = '((VC2!=0) ? VC2 : MiMVC2)'
+
+X1 Pos Neg IC_Cap_2T L='L' W='W' M='M' Carea=AreaCalc CFringe=FringeCalc
++dW=M3WDelta dL=M4LDelta RshTop=M4RshMean RshBottom=M3RshMean
++VC1=VC1Calc VC2=VC2Calc TC1=TC1Calc TC2=TC2Calc
+
+.ENDS
+
+.ENDL .LIB CAP_SUBCIRCUITS
+
+.LIB SIM_SUBCIRCUITS
+
+*************************
+* General Resistor Model
+*************************
+.SUBCKT IC_Res_2T Pos Neg L=1u W=1u NS=1 Rsh=1 dW=0 dL=0 ContRes=0 HeadLen=0 HeadRsh=0 Cox=0 Csw=0 VC1=0 VC2=0 TC1=0 TC2=0
+
+.PARAM Leff = 'L-2*dL'
+.PARAM Weff = 'W-2*dW'
+.PARAM Cres = 'Leff*Weff*Cox+2*Csw*(Leff+Weff)'
+.PARAM Rhead = 'HeadRsh*(HeadLen-2*dL)/Weff'
+.PARAM TCDiff = 'temper-25'
+.PARAM RTempMult = '1+TCDiff*(TC1+TCDiff*TC2)'
+
+RcontP Pos N1  R='ContRes*NS'
+RheadP N1  N2  R='Rhead*NS'
+Cp	    N2  0   C='Cres/2'
+Rmain  N2  N3  R='((Rsh*Leff*NS)/Weff)*(1.0+VC1*abs(v(Pos,Neg))+VC2*abs(v(Pos,Neg))*abs(v(Pos,Neg)))*RTempMult'
+Cn     N3  0   C='Cres/2'
+RheadN N3  N4  R='Rhead*NS'
+RcontN N4  Neg R='ContRes*NS'
+
+.ENDS
+
+*************************
+* General Capacitor Model
+*************************
+.SUBCKT IC_Cap_2T Pos Neg L=1u W=1u M=1 Carea=0 CFringe=0 dW=0 dL=0 RshTop=0 RshBottom=0 VC1=0 VC2=0 TC1=0 TC2=0
+
+.PARAM Leff = 'L-2*dL'
+.PARAM Weff = 'W-2*dW'
+.PARAM Ccap = 'Leff*Weff*Carea+2*CFringe*(Leff+Weff)'
+
+RTop    Pos N1  R='RshTop*Leff/Weff'
+Cmain2  N1  N2  C='Ccap**(1.0+VC1*abs(v(Pos,Neg))+VC2*abs(v(Pos,Neg))*abs(v(Pos,Neg)))' TC1='TC1' TC2='TC2'
+RBottom Neg N2  R='RshBottom*Leff/Weff'
+
+.ENDS
+
+.ENDL
+
+**************************************************************************************************************
+* Subcircuits to map for LVS
+**************************************************************************************************************
+.LIB LVS_SUBCIRCUITS
+
+.SUBCKT IC_Res_2T Pos Neg L=1u W=1u NS=1 Rsh=1 dW=0 dL=0 ContRes=0 HeadLen=0 HeadRsh=0 Cox=0 Csw=0 VC1=0 VC2=0 TC1=0 TC2=0
+
+.PARAM Leff = 'L-2*dL'
+.PARAM Weff = 'W-2*dW'
+.PARAM Rhead = 'HeadRsh*(HeadLen-2*dL)/Weff'
+
+RcontP Pos N1  R='ContRes*NS'
+RheadP N1  N2  R='Rhead*NS'
+Rmain  N2  N3  R='(Rsh*Leff*NS)/Weff'
+RheadN N3  N4  R='Rhead*NS'
+RcontN N4  Neg R='ContRes*NS'
+
+.ENDS
+
+.SUBCKT IC_Cap_2T Pos Neg L=1u W=1u M=1 Carea=0 CFringe=0 dW=0 dL=0 RshTop=0 RshBottom=0 VC1=0 VC2=0 TC1=0 TC2=0
+
+.PARAM Leff = 'L-2*dL'
+.PARAM Weff = 'W-2*dW'
+.PARAM Ccap = 'Leff*Weff*Carea+2*CFringe*(Leff+Weff)'
+
+Cmain Pos Neg C='Ccap*M'
+
+.ENDS
+
+.ENDL
+
+.LIB GaAs
+* GaAs model file (for Statz model)
+
+.model GaAsFET NJF
++ level=2 sat=2 capop=1
++ tlev=0 tlevc=0 acm=0
++ vto=-0.9 beta=1.77e-4 lambda=0.0625
++ rd=900 rs=900 cgs=1.0e-15 cgd=1.0e-15
++ pb=0.65 vmax=0.5 is=1.0e-15 fc=0.0 m=0.5
++ ucrit=1e-4 alpha=3.5 crat=0.66
++ rg=5 n=1.18 ldel=-0.1u wdel=-0.15u
++ vgexp=2 satexp=3
++ eg=1.5 gap1=5e-4 gap2=200 d=10.9
+
+.model diode D
++ is=1.6e-13 n=1.27 rs=950 bv=2 ibv=0.1u
++ cjo=2.8ff pb=1.0 m=0.5 fc=0.0
+
+.ENDL

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DockingPaneLayouts CompactMode="1">
+	<RegistyKey>
+		<Summary Panes="22" TopContainer="6" Client="11"/>
+		<Pane-1 Type="0" DockingCX="557" DockingCY="120" Title="Libraries\n\n" ID="3" DockingHolder="7" FloatingHolder="16" LastHolder="7"/>
+		<Pane-2 Type="0" DockingCX="200" DockingCY="120" Title="Hierarchy\n\n" ID="6" DockingHolder="8" LastHolder="8"/>
+		<Pane-3 Type="0" DockingCX="200" DockingCY="175" Title="Command\n\n" ID="1" DockingHolder="13" LastHolder="13"/>
+		<Pane-4 Type="0" DockingCX="368" DockingCY="120" Title="Properties\n\n" ID="2" DockingHolder="12" LastHolder="12"/>
+		<Pane-5 Type="0" DockingCX="200" DockingCY="120" Title="Find\n\n" ID="5" DockingHolder="12" LastHolder="12"/>
+		<Pane-6 Type="2" DockingCX="1895" Horiz="1" Panes="3" Pane-1="7" Pane-2="8" Pane-3="9"/>
+		<Pane-7 Type="1" DockingCX="557" DockingCY="120" Panes="0"/>
+		<Pane-8 Type="1" DockingCX="187" DockingCY="120" Panes="0"/>
+		<Pane-9 Type="2" DockingCX="1334" DockingCY="887" Panes="2" Pane-1="10" Pane-2="13"/>
+		<Pane-10 Type="2" DockingCY="708" Horiz="1" Panes="2" Pane-1="11" Pane-2="12"/>
+		<Pane-11 Type="4" DockingCX="1523"/>
+		<Pane-12 Type="1" DockingCX="368" DockingCY="120" Panes="0"/>
+		<Pane-13 Type="1" DockingCX="200" DockingCY="175" Panes="0"/>
+		<Pane-14 Type="3" WindowRectTopPos="110" WindowRectBottomPos="715" WindowRectLeftPos="6" WindowRectRightPos="277" TopContaner="15"/>
+		<Pane-15 Type="2" DockingCX="292" DockingCY="120" Horiz="1" Panes="1" Pane-1="16"/>
+		<Pane-16 Type="1" DockingCX="292" DockingCY="120" Panes="0"/>
+		<Pane-17 Type="5" Direction="1" Panes="1" Pane-1="18"/>
+		<Pane-18 Type="1" DockingCX="368" DockingCY="120" Panes="1" Selected="4" Pane-1="4"/>
+		<Pane-19 Type="5" Direction="0" Panes="1" Pane-1="20"/>
+		<Pane-20 Type="1" DockingCX="557" DockingCY="120" Panes="1" Selected="1" Pane-1="1"/>
+		<Pane-21 Type="5" Direction="3" Panes="1" Pane-1="22"/>
+		<Pane-22 Type="1" DockingCX="200" DockingCY="175" Panes="1" Selected="3" Pane-1="3"/>
+	</RegistyKey>
+</DockingPaneLayouts>
